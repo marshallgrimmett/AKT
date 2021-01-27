@@ -1,9 +1,9 @@
 import os
 import torch
 from akt import AKT
-# from sakt import SAKT
-# from dkvmn import DKVMN
-# from dkt import DKT
+from sakt import SAKT
+from dkvmn import DKVMN
+from dkt import DKT
 # from dktplus import DKTPlus
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -50,6 +50,15 @@ def load_model(params):
     if model_type in {'akt'}:
         model = AKT(n_question=params.n_question, n_pid=params.n_pid, n_blocks=params.n_block, d_model=params.d_model,
                     dropout=params.dropout, kq_same=params.kq_same, model_type=model_type, l2=params.l2).to(device)
+    elif model_type in {'sakt'}:
+        model = SAKT(n_question=params.n_question, n_blocks=params.n_block, d_model=params.d_model, final_fc_dim=512,
+                    dropout=params.dropout, m_type=model_type, d_ff=2048, fc_layer=3, n_heads=params.n_head).to(device)
+    elif model_type in {'dkt'}:
+        model = DKT(n_question=params.n_question, n_pid=params.n_pid, embed_l=1, hidden_dim=params.hidden_dim,
+                    dropout=params.dropout, l2=params.l2).to(device)
+    elif model_type in {'dkvmn'}:
+        model = DKVMN(n_question=params.n_question, n_pid=params.n_pid, seqlen=params.seqlen, q_embed_dim=params.q_embed_dim,
+                    qa_embed_dim=params.qa_embed_dim, memory_size=params.memory_size).to(device)
     else:
         model = None
     return model

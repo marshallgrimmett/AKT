@@ -175,12 +175,15 @@ if __name__ == '__main__':
     dataset = params.dataset
 
     if dataset in {"assist2009_pid"}:
-        params.n_question = 110
+        # params.n_question = 110
+        params.n_question = 85
         params.batch_size = 24
         params.seqlen = 200
         params.data_dir = 'data/'+dataset
         params.data_name = dataset
         params.n_pid = 16891
+        # params.n_pid = 385
+        # params.n_pid = 1187
 
     if dataset in {"assist2017_pid"}:
         params.batch_size = 24
